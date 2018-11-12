@@ -40,3 +40,4 @@ void f(int n, int k, int e, int c)
 			f( n + 1, k, e - 1, c ); // 통과
 		f( n + 1, k, bat[n] - 1, c + 1 ); // 교환 : 현재 정류장 배터리 - 1, 교환횟수 증가 
 	}
+}
