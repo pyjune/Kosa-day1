@@ -4,12 +4,36 @@ int a[5] = { 1, 2, 3, 4, 5};
 int tree[1000000];
 
 int makeT(int n, int s, int e);
+int findT(int n, int s, int e, int l, int r);
+void changeT(int n, int s, int e, int i, int data);
 
 int main(void) 
 {
 	makeT(1, 0, 4);
 	printf("%d\n", findT(1, 0, 4, 1, 3));
+	changeT(1, 0, 4, 1, 1);
+	printf("%d\n", findT(1, 0, 4, 1, 3));
 	return 0;
+}
+
+void changeT(int n, int s, int e, int i, int data)
+{
+	int diff = data - a[i];
+	while( s != e )
+	{
+		tree[n] += diff;
+		if (i <= ((s + e) / 2)) // 왼쪽 자식노드 구간이 i를 포함하면 
+		{
+			n = n * 2;
+			e = (s + e) / 2;
+		}
+		else
+		{
+			n = n * 2 + 1;
+			s = (s + e) / 2 + 1;
+		}	
+	}
+	tree[n] += diff; // leaf 노드에 적용... 
 }
 
 int findT(int n, int s, int e, int l, int r)
@@ -29,6 +53,8 @@ int findT(int n, int s, int e, int l, int r)
 		return (r1 + r2);
 	}
 }
+
+
 
 int makeT(int n, int s, int e)
 {
