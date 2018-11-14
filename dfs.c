@@ -14,7 +14,10 @@ void dfs(int n);
 void dfs2(int n);
 void dfs3(int n, int k);
 int cnt;
- 
+
+void dfs4(int n, int k, int e); // 지나온 간선의 개수가 최소인 경우 찾기 
+int minV;
+int maxV; 
 int main(void) 
 {
 	freopen("input.txt", "r", stdin);
@@ -28,8 +31,12 @@ int main(void)
 	}
 	//dfs(1);
 	//dfs2(1);
-	dfs3(1, 4); // 1에서 4로 가는 경로의 수 확인 
-	printf("%d\n", cnt);
+	//dfs3(1, 4); // 1에서 4로 가는 경로의 수 확인 
+	//printf("%d\n", cnt);
+	minV = E;
+	maxV = 0;
+	dfs4(1, 4, 0);
+	printf("%d %d\n", minV, maxV);
 	return 0;
 }
 
@@ -82,6 +89,34 @@ void dfs3(int n, int k)
 			if(( adj[n][i] != 0 ) && ( visited[i] == 0))
 			{
 				dfs3(i, k);
+			}
+		}
+		visited[n] = 0; // 방문 기록 삭제 
+	}
+}
+
+void dfs4(int n, int k, int e)
+{
+	if( n == k )
+	{
+		if ( minV > e)
+		{
+			minV = e;
+		}
+		if( maxV < e)
+		{
+			maxV = e;
+		}
+	}
+	else
+	{
+		visited[n] = 1; // 방문 기록
+		for( int i = 1; i <= V; i++)
+		{
+			// n에 인접하고, 아직 미방문인 노드 i 검색... 
+			if(( adj[n][i] != 0 ) && ( visited[i] == 0))
+			{
+				dfs4(i, k, e + 1);
 			}
 		}
 		visited[n] = 0; // 방문 기록 삭제 
