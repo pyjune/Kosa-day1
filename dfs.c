@@ -12,6 +12,8 @@ int top = -1;
 int stack[5];
 void dfs(int n);
 void dfs2(int n);
+void dfs3(int n, int k);
+int cnt;
  
 int main(void) 
 {
@@ -25,7 +27,9 @@ int main(void)
 		//adj[n2][n1] = 1; // 무향그래프인 경우 
 	}
 	//dfs(1);
-	dfs2(1);
+	//dfs2(1);
+	dfs3(1, 4); // 1에서 4로 가는 경로의 수 확인 
+	printf("%d\n", cnt);
 	return 0;
 }
 
@@ -60,5 +64,26 @@ void dfs2(int n)
 			}
 		} 
 	} 
+}
+// 경로의 수 찾기.. 
+void dfs3(int n, int k)
+{
+	if( n == k )
+	{
+		cnt++;
+	}
+	else
+	{
+		visited[n] = 1; // 방문 기록
 	
+		for( int i = 1; i <= V; i++)
+		{
+			// n에 인접하고, 아직 미방문인 노드 i 검색... 
+			if(( adj[n][i] != 0 ) && ( visited[i] == 0))
+			{
+				dfs3(i, k);
+			}
+		}
+		visited[n] = 0; // 방문 기록 삭제 
+	}
 }
